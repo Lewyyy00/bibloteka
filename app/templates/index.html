@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domowa Biblioteka</title>
+</head>
+<body>
+    <h1>Domowa Biblioteka</h1>
+
+    <h2>Książki</h2>
+    <ul>
+        {% for book in books %}
+            <li>{{ book.title }}
+                {% if book.authors %}
+                    by {{ ', '.join(author.name for author in book.authors) }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Dodaj Książkę</h2>
+    <form action="{{ url_for('add_book') }}" method="post">
+        <label for="title">Tytuł:</label>
+        <input type="text" name="title" required>
+        <button type="submit">Dodaj Książkę</button>
+    </form>
+
+    <h2>Dodaj Autora do Książki</h2>
+    <form action="{{ url_for('add_author') }}" method="post">
+        <label for="book_id">Wybierz Książkę:</label>
+        <select name="book_id" required>
+            {% for book in books %}
+                <option value="{{ book.id }}">{{ book.title }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="author_name">Imię i Nazwisko Autora:</label>
+        <input type="text" name="author_name" required>
+        <button type="submit">Dodaj Autora</button>
+    </form>
+</body>
+</html>
